@@ -1,24 +1,29 @@
-import { clerkMiddleware, redirectToSignIn } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const protectedRoutes = ["/dashboard", "/account", "/transaction"];
+const isProtectedRoute = createRouteMatcher(
+  [
+    "/dashboard(.*)",
+    "/account(.*)",
+    "/transaction(.*)",
+  ]
+);
 
-function isProtectedRoute(url) {
-  return protectedRoutes.some((route) => url.pathname.startsWith(route));
-}
 
-export default clerkMiddleware(async (req) => {
-  const { userId } = req.auth;
-
-  if (!userId && isProtectedRoute(new URL(req.url))) {
-    return redirectToSignIn({ returnBackUrl: req.url });
+export default clerkMiddleware(async(auth,req)=>
+{
+  const {userId} = await auth();
+  if(!userId && isProtectedRoute(req))
+  {
+    const {redirectToSignIn} = await auth();
+    return redirectToSignIn();
   }
-
-  return NextResponse.next();
 });
 
 export const config = {
   matcher: [
-    '/((?!_next|favicon.ico|robots.txt|.*\\.(css|js|jpg|jpeg|png|svg|webp|gif|woff2?|ttf|map)).*)',
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
   ],
 };
