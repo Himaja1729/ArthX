@@ -5,10 +5,11 @@ import Link from "next/link";
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, PenBox } from 'lucide-react';
 import { checkUser } from '@/lib/checkUser';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 const Header = async () => {
     await checkUser();
     return (
-        <div className="fixed top-0 w-full bg-white backdrop-blur-md z-50 border-b shadow-md">
+        <div className="fixed top-0 w-full bg-background text-foreground backdrop-blur-md z-50 border-b shadow-md">
         <nav className="container mx-auto px-4 py-1 flex items-center justify-between">
             <Link href="/">
                 <Image
@@ -42,6 +43,7 @@ const Header = async () => {
                 </SignInButton>
                 
             </SignedOut>
+            <ThemeToggle /> 
             <SignedIn>
                 <UserButton appearance={{
                     elements:{

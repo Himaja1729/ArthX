@@ -9,7 +9,7 @@ async function Dashboardpage() {
 const accounts = await getUserAccounts();
 
 
-    return( <div className='px-5'> 
+    return( <div className='px-5 white'> 
     {/*Budget progrss*/}
     {/*overview*/}
     {/*account grid*/}
