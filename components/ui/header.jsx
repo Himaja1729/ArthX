@@ -4,18 +4,20 @@ import Image  from "next/image";
 import Link from "next/link";
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, PenBox } from 'lucide-react';
-const Header = () => {
+import { checkUser } from '@/lib/checkUser';
+const Header = async () => {
+    await checkUser();
     return (
-        <div className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-            <nav className='container mx-auto px-4 py-4 flex items-center justify-between'>
-                <Link href="/">
-                    <Image
-                        src={"/arthxlogo1.png"}
-                        alt="arthx logo"
-                        width={100}
-                        height={600}
-                        className="h-12 w-auto object-contain"
-                    />
+        <div className="fixed top-0 w-full bg-white backdrop-blur-md z-50 border-b shadow-md">
+        <nav className="container mx-auto px-4 py-1 flex items-center justify-between">
+            <Link href="/">
+                <Image
+                    src="/arthxlogo3.png"
+                    alt="Arthx Logo"
+                    width={150}
+                    height={150}
+                    className="h-[100px] w-auto object-contain drop-shadow-md"
+                />
                 </Link>
             <div className='flex items-center space-x-4'>
                 <SignedIn>

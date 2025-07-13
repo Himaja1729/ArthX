@@ -18,7 +18,7 @@ const HeroSection = () => {
             if(scrollPosition > scrollThreshold) {
                 imageElement.classList.add("scrolled");
             } else {
-                imageElement.classList.remove("scrolled");
+                 imageElement.classList.remove("scrolled");
             }
         };
 
