@@ -1,60 +1,68 @@
 "use client";
-import React, { useEffect } from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Input } from "@/components/ui/input";
+
+import { useState, useEffect } from "react";
+import { Pencil, Check, X } from "lucide-react";
+import useFetch from "@/hooks/use-fetch";
+import { toast } from "sonner";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Check, Pencil } from 'lucide-react';
-import { useState } from 'react';
-import { X } from 'lucide-react';
-import { toast } from 'sonner';
-import useFetch from '@/hooks/use-fetch';
-import { updateBudget } from '@/actions/budget';
-import {Progress} from '@/components/ui/progress';
+import { Input } from "@/components/ui/input";
+import { updateBudget } from "@/actions/budget";
 
-
-const BudgetProgress = ({ initialBudget, currentExpenses }) => {
+export function BudgetProgress({ initialBudget, currentExpenses }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newBudget, setNewBudget] = useState(
-    initialBudget?.amount?.toString() || "");
-
+    initialBudget?.amount?.toString() || ""
+  );
 
   const {
     loading: isLoading,
     fn: updateBudgetFn,
-    data: updateBudgetdata,
+    data: updatedBudget,
     error,
   } = useFetch(updateBudget);
 
-  const percentageUsed = initialBudget ? (currentExpenses / initialBudget.amount) * 100 : 0;
+  const percentUsed = initialBudget
+    ? (currentExpenses / initialBudget.amount) * 100
+    : 0;
 
   const handleUpdateBudget = async () => {
     const amount = parseFloat(newBudget);
 
     if (isNaN(amount) || amount <= 0) {
-      toast.error("Please enter a valid budget amount.");
+      toast.error("Please enter a valid amount");
       return;
     }
+
     await updateBudgetFn(amount);
   };
+
+  const handleCancel = () => {
+    setNewBudget(initialBudget?.amount?.toString() || "");
+    setIsEditing(false);
+  };
+
   useEffect(() => {
-    if (updateBudgetdata?.success) {
+    if (updatedBudget?.success) {
       setIsEditing(false);
       toast.success("Budget updated successfully");
     }
-
-  }, [updateBudgetdata]);
+  }, [updatedBudget]);
 
   useEffect(() => {
     if (error) {
       toast.error(error.message || "Failed to update budget");
     }
-  }, [error]
-  );
+  }, [error]);
 
-  const handleCancelBudget = () => {
-    setNewBudget(initialBudget?.amount?.toString() || "");
-    setIsEditing(false);
-  };
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -85,7 +93,7 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={handleCancelBudget}
+                  onClick={handleCancel}
                   disabled={isLoading}
                 >
                   <X className="h-4 w-4 text-red-500" />
@@ -95,9 +103,9 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
               <>
                 <CardDescription>
                   {initialBudget
-                    ? `₹${currentExpenses.toFixed(
-                      2
-                    )} of ₹${initialBudget.amount.toFixed(2)} spent`
+                    ? `$${currentExpenses.toFixed(
+                        2
+                      )} of $${initialBudget.amount.toFixed(2)} spent`
                     : "No budget set"}
                 </CardDescription>
                 <Button
@@ -114,26 +122,25 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
         </div>
       </CardHeader>
       <CardContent>
-       {initialBudget && (
+        {initialBudget && (
           <div className="space-y-2">
             <Progress
-              value={percentageUsed}
+              value={percentUsed}
               extraStyles={`${
                 // add to Progress component
-                percentageUsed >= 90
+                percentUsed >= 90
                   ? "bg-red-500"
-                  : percentageUsed >= 75
+                  : percentUsed >= 75
                     ? "bg-yellow-500"
                     : "bg-green-500"
               }`}
             />
             <p className="text-xs text-muted-foreground text-right">
-              {percentageUsed.toFixed(1)}% used
+              {percentUsed.toFixed(1)}% used
             </p>
           </div>
-        )} 
+        )}
       </CardContent>
-    </Card>)
+    </Card>
+  );
 }
-
-export default BudgetProgress;
