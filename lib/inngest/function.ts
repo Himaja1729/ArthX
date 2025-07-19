@@ -1,6 +1,6 @@
 import { inngest } from "./client";
 import { db } from "@/lib/prisma";
-import  EmailTemplate  from "@/emails/template";
+import EmailTemplate from "@/emails/template";
 import { sendEmail } from "@/actions/send-email";
 export const checkBudgetAlerts = inngest.createFunction(
   { id:"check-budget",
