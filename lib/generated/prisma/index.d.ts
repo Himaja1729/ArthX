@@ -6267,18 +6267,18 @@ export namespace Prisma {
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     name?: string
+    userId?: string
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
     type?: EnumAccountTypeFilter<"Account"> | $Enums.AccountType
     balance?: DecimalFilter<"Account"> | Decimal | DecimalJsLike | number | string
     isDefault?: BoolFilter<"Account"> | boolean
-    userId?: StringFilter<"Account"> | string
     createdAt?: DateTimeFilter<"Account"> | Date | string
     updatedAt?: DateTimeFilter<"Account"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     transactions?: TransactionListRelationFilter
-  }, "id" | "name">
+  }, "id" | "name" | "userId">
 
   export type AccountOrderByWithAggregationInput = {
     id?: SortOrder
@@ -6450,16 +6450,16 @@ export namespace Prisma {
 
   export type BudgetWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId?: string
     AND?: BudgetWhereInput | BudgetWhereInput[]
     OR?: BudgetWhereInput[]
     NOT?: BudgetWhereInput | BudgetWhereInput[]
     amount?: DecimalFilter<"Budget"> | Decimal | DecimalJsLike | number | string
     lastAlertSent?: DateTimeNullableFilter<"Budget"> | Date | string | null
-    userId?: StringFilter<"Budget"> | string
     createdAt?: DateTimeFilter<"Budget"> | Date | string
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "userId">
 
   export type BudgetOrderByWithAggregationInput = {
     id?: SortOrder

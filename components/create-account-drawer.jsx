@@ -25,7 +25,7 @@ import {
 import { Switch } from './ui/switch';
 import { Button } from './ui/button';
 import useFetch from "@/hooks/use-fetch";
-import { createAccount} from '@/actions/dasboard';
+import { createAccount} from '@/actions/dashboard';
 import { toast } from 'sonner';
 
 const CreateAccountDrawer = ({ children }) => {

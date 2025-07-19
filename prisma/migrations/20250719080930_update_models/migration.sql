@@ -1,14 +1,14 @@
 -- -- CreateEnum
--- CREATE TYPE "AccountType" AS ENUM ('CURRENT', 'SAVINGS');
-
--- -- CreateEnum
 -- CREATE TYPE "TransactionType" AS ENUM ('INCOME', 'EXPENSE');
 
 -- -- CreateEnum
--- CREATE TYPE "RecurringInterval" AS ENUM ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY');
+-- CREATE TYPE "AccountType" AS ENUM ('CURRENT', 'SAVINGS');
 
 -- -- CreateEnum
 -- CREATE TYPE "TransactionStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED');
+
+-- -- CreateEnum
+-- CREATE TYPE "RecurringInterval" AS ENUM ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -78,9 +78,6 @@ CREATE UNIQUE INDEX "users_clerkUserId_key" ON "users"("clerkUserId");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "accounts_name_key" ON "accounts"("name");
-
--- CreateIndex
 CREATE INDEX "accounts_userId_idx" ON "accounts"("userId");
 
 -- CreateIndex
@@ -88,6 +85,9 @@ CREATE INDEX "transactions_userId_idx" ON "transactions"("userId");
 
 -- CreateIndex
 CREATE INDEX "transactions_accountId_idx" ON "transactions"("accountId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "budgets_userId_key" ON "budgets"("userId");
 
 -- CreateIndex
 CREATE INDEX "budgets_userId_idx" ON "budgets"("userId");
